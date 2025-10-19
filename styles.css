@@ -164,11 +164,6 @@ a:focus {
   align-items: center;
 }
 
-#pre-check .hero-content {
-  filter: none !important;
-  pointer-events: auto !important;
-}
-
 .floating-gallery button {
   background: none;
   border: none;
@@ -548,12 +543,6 @@ section {
 
 .hidden {
   display: none;
-}
-
-.locked:not(.locked-active) .hero-content,
-.locked:not(.locked-active) .agenda-list,
-.locked:not(.locked-active) .survey-content {
-  filter: none;
 }
 
 .lightbox {

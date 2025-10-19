@@ -20,6 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
   setupPastMedia();
   forceHeadcountActive();
   checkTimeUnlocks();
+  setupAgendaAccordion();
   if (demoMode) {
     enableDemoMode();
   }
@@ -158,22 +159,19 @@ function setupCTAButtons() {
   const teamSection = document.getElementById("team");
 
   if (agendaTrigger) {
-    agendaTrigger.hidden = !demoMode;
+    agendaTrigger.hidden = false;
     agendaTrigger.addEventListener("click", () => {
       unlockSection(surveySection);
       formReveal(surveySection);
-      flowState.surveyVisible = true;
-      if (surveyTrigger) surveyTrigger.hidden = false;
       surveySection.scrollIntoView({ behavior: "smooth" });
     });
   }
 
   if (surveyTrigger) {
-    surveyTrigger.hidden = !demoMode;
+    surveyTrigger.hidden = false;
     surveyTrigger.addEventListener("click", () => {
       teamSection.classList.remove("hidden");
       teamSection.setAttribute("aria-hidden", "false");
-      flowState.teamVisible = true;
       teamSection.scrollIntoView({ behavior: "smooth" });
     });
   }
@@ -181,15 +179,6 @@ function setupCTAButtons() {
 
 function setupNav() {
   const navLinks = document.querySelectorAll(".site-nav a");
-  const formStatus = document.getElementById("formStatus");
-  const preFormStatus = document.getElementById("preFormStatus");
-  const checkInSection = document.getElementById("check-in");
-  const agendaSection = document.getElementById("agenda");
-  const surveySection = document.getElementById("survey");
-  const teamSection = document.getElementById("team");
-  const pastEventsSection = document.getElementById("past-events");
-  const agendaTrigger = document.getElementById("agendaTrigger");
-  const surveyTrigger = document.getElementById("surveyTrigger");
 
   if (!navLinks.length) return;
 
@@ -198,57 +187,33 @@ function setupNav() {
       const targetId = link.getAttribute("href").replace("#", "");
 
       if (!targetId) return;
-
-      if (targetId === "check-in") {
-        event.preventDefault();
-        checkInSection.scrollIntoView({ behavior: "smooth" });
-        return;
-      }
-
-      if (targetId === "past-events") {
-        event.preventDefault();
-        if (pastEventsSection) {
-          pastEventsSection.scrollIntoView({ behavior: "smooth" });
-        }
-        return;
-      }
-
-      if (targetId === "agenda" && !flowState.agendaVisible) {
-        event.preventDefault();
-        if (formStatus) {
-          formStatus.textContent = "Submit the form to unlock tonight's agenda.";
-        }
-        checkInSection.scrollIntoView({ behavior: "smooth" });
-        return;
-      }
-
-      if (targetId === "survey" && !flowState.surveyVisible) {
-        event.preventDefault();
-        agendaSection.scrollIntoView({ behavior: "smooth" });
-        nudgeElement(agendaTrigger);
-        return;
-      }
-
-      if (targetId === "team" && !flowState.teamVisible) {
-        event.preventDefault();
-        surveySection.scrollIntoView({ behavior: "smooth" });
-        nudgeElement(surveyTrigger);
-        return;
-      }
-
+      const destination = document.getElementById(targetId);
+      if (!destination) return;
       event.preventDefault();
-      const destination =
-        targetId === "agenda"
-          ? agendaSection
-          : targetId === "survey"
-          ? surveySection
-          : targetId === "team"
-          ? teamSection
-          : pastEventsSection;
-      if (destination) {
-        destination.scrollIntoView({ behavior: "smooth" });
+      destination.scrollIntoView({ behavior: "smooth" });
+    });
+  });
+}
+
+function setupAgendaAccordion() {
+  const items = document.querySelectorAll(".agenda-item");
+  if (!items.length) return;
+
+  items.forEach((item, index) => {
+    const summary = item.querySelector(".agenda-summary");
+    if (!summary) return;
+
+    summary.addEventListener("click", () => {
+      const isActive = item.classList.contains("active");
+      items.forEach((other) => other.classList.remove("active"));
+      if (!isActive) {
+        item.classList.add("active");
       }
     });
+
+    if (index === 0) {
+      item.classList.add("active");
+    }
   });
 }
 
@@ -309,14 +274,30 @@ function setupPreForm() {
       return;
     }
 
-    flowState.precheckComplete = true;
-    if (preStatus) {
-      preStatus.textContent = "Thanks for pre-checking! Scroll down when you arrive.";
-    }
-    unlockSection(checkInSection);
-    formReveal(checkInSection);
-    lockSection(document.getElementById("agenda"), "Unlocks at 6:00 PM on Oct 25");
-    lockSection(document.getElementById("survey"), "Unlocks after agenda at 6:00 PM on Oct 25");
+    const payload = new FormData(preForm);
+
+    fetch(
+      "https://docs.google.com/forms/d/e/1FAIpQLScJrmJPsAhbVvI9aB312jEgprBz4IGrid7bIGaZBZuvF90PNQ/formResponse",
+      {
+        method: "POST",
+        mode: "no-cors",
+        body: payload,
+      }
+    )
+      .then(() => {
+        preForm.reset();
+        flowState.precheckComplete = true;
+        if (preStatus) {
+          preStatus.textContent = "Thanks for pre-checking! Scroll down when you arrive.";
+        }
+        unlockSection(checkInSection);
+        formReveal(checkInSection);
+      })
+      .catch(() => {
+        if (preStatus) {
+          preStatus.textContent = "We couldn’t submit. Please try again.";
+        }
+      });
   });
 }
 
@@ -324,24 +305,10 @@ function unlockSection(section) {
   if (!section) return;
   section.classList.remove("hidden");
   section.setAttribute("aria-hidden", "false");
-  if (section.hasAttribute("data-gated")) {
-    section.classList.remove("locked", "locked-active");
-  }
 }
 
-function formReveal(section) {
-  if (!section) return;
-  section.classList.remove("locked");
-}
-
-function lockSection(section, message) {
-  if (!section || !section.hasAttribute("data-gated")) return;
-  if (message) {
-    section.setAttribute("data-locked-message", message);
-  }
-  section.classList.add("locked", "locked-active");
-  section.setAttribute("aria-hidden", "true");
-}
+const formReveal = () => {};
+const lockSection = () => {};
 
 function forceHeadcountActive() {
   const pre = document.getElementById("pre-check");

@@ -23,11 +23,64 @@
         <a href="#agenda">Agenda</a>
         <a href="#survey">Event Survey</a>
         <a href="#team">Meet the Team</a>
+        <a href="#past-events">Past Events</a>
       </nav>
     </header>
 
     <main>
-      <section id="check-in" class="hero">
+      <section id="pre-check" class="hero hero--precheck">
+        <div class="hero-content">
+          <div class="checkin-card">
+            <h1>Event Head Count</h1>
+            <p class="hero-subtitle">
+              Let us know you're planning to attend so we can prep enough tables, wristbands, and snacks.
+            </p>
+            <form id="preCheckForm" novalidate>
+              <div class="form-grid">
+                <label>
+                  First Name
+                  <input type="text" name="preFirstName" required />
+                </label>
+                <label>
+                  Last Name
+                  <input type="text" name="preLastName" required />
+                </label>
+              </div>
+
+              <label>
+                Email Address
+                <input type="email" name="preEmail" required />
+              </label>
+
+              <label>
+                Phone Number
+                <input
+                  type="tel"
+                  name="prePhone"
+                  placeholder="(201) 555-0123"
+                  pattern="^[0-9+()\-\s]{7,}$"
+                  required
+                />
+              </label>
+
+              <button type="submit" class="primary-btn">Thanks! Save My Spot</button>
+              <p class="form-status" id="preFormStatus" role="status"></p>
+            </form>
+
+            <div class="countdown" id="eventCountdown" aria-live="polite">
+              <div class="countdown-value">00d 00h 00m 00s</div>
+              <div class="countdown-label">until the next funky kickoff</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section
+        id="check-in"
+        class="hero locked locked-active"
+        data-gated="true"
+        data-locked-message="Unlocks at 6:00 PM on Oct 25"
+      >
         <div class="hero-overlay"></div>
         <div class="hero-content">
           <div class="floating-gallery" id="floatingGallery"></div>
@@ -129,7 +182,13 @@
         </div>
       </section>
 
-      <section id="agenda" class="agenda hidden" aria-hidden="true">
+      <section
+        id="agenda"
+        class="agenda locked locked-active"
+        aria-hidden="true"
+        data-gated="true"
+        data-locked-message="Unlocks at 6:00 PM on Oct 25"
+      >
         <div class="section-heading">
           <h2>Christian Singles Game Night — Agenda</h2>
           <p>October 25 &bull; Sol Vermella &bull; 4 Vermella Wy, Union, NJ 07083</p>
@@ -244,7 +303,13 @@
         </div>
       </section>
 
-      <section id="survey" class="survey hidden" aria-hidden="true">
+      <section
+        id="survey"
+        class="survey locked locked-active"
+        aria-hidden="true"
+        data-gated="true"
+        data-locked-message="Unlocks at 6:00 PM on Oct 25"
+      >
         <div class="section-heading">
           <h2>Tell Us How We Did</h2>
           <p>Share quick feedback so we can keep elevating every game night.</p>
@@ -284,23 +349,34 @@
         </div>
       </section>
 
-      <section id="team" class="team hidden" aria-hidden="true">
+      <section id="team" class="team" aria-hidden="false">
         <div class="section-heading">
           <h2>Meet Our Team</h2>
           <p>From left to right: Oba, Lola, Tobi, David, Yeni, and Peggy.</p>
         </div>
+
         <div class="team-photo">
           <img src="The%20team.jpg" alt="Christian Singles Game Night Team" />
         </div>
         <p class="cta-whatsapp">
-          Join our WhatsApp group to stay in the loop &mdash;
-          <a
-            href="https://chat.whatsapp.com/ITHfVEvhFKP0XR8xdjWAPD"
-            target="_blank"
-            rel="noopener"
-            >click here to join</a
-          >.
+          Stay plugged in for potluck sign-ups, ride shares, and the next game night.
         </p>
+        <a
+          class="cta-whatsapp__button"
+          href="https://chat.whatsapp.com/ITHfVEvhFKP0XR8xdjWAPD"
+          target="_blank"
+          rel="noopener"
+        >
+          Join Our WhatsApp Group
+        </a>
+      </section>
+
+      <section id="past-events" class="past-events" aria-hidden="false">
+        <div class="section-heading">
+          <h2>Past Events</h2>
+          <p>Highlights from recent game nights — photos and videos from the fam.</p>
+        </div>
+        <div class="media-grid" id="pastMediaGrid"></div>
       </section>
     </main>
 
@@ -311,8 +387,13 @@
     </footer>
 
     <div id="lightbox" class="lightbox" role="dialog" aria-modal="true" aria-hidden="true">
-      <button class="lightbox-close" type="button" aria-label="Close image"></button>
-      <img src="" alt="Event moment" />
+      <button class="lightbox-close" type="button" aria-label="Close viewer"></button>
+      <button class="lightbox-nav lightbox-prev" type="button" aria-label="Previous media"></button>
+      <div class="lightbox-media">
+        <img src="" alt="Event moment" />
+        <video src="" controls playsinline></video>
+      </div>
+      <button class="lightbox-nav lightbox-next" type="button" aria-label="Next media"></button>
     </div>
 
     <script src="script.js" defer></script>

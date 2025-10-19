@@ -1,3 +1,5 @@
+const demoMode = true;
+
 const flowState = {
   agendaVisible: false,
   surveyVisible: false,
@@ -10,6 +12,9 @@ document.addEventListener("DOMContentLoaded", () => {
   setupLightbox();
   setupCTAButtons();
   setupNav();
+  if (demoMode) {
+    enableDemoMode();
+  }
 });
 
 const galleryImages = [
@@ -110,7 +115,7 @@ function setupCTAButtons() {
   const teamSection = document.getElementById("team");
 
   if (agendaTrigger) {
-    agendaTrigger.hidden = true;
+    agendaTrigger.hidden = !demoMode;
     agendaTrigger.addEventListener("click", () => {
       surveySection.classList.remove("hidden");
       surveySection.setAttribute("aria-hidden", "false");
@@ -121,7 +126,7 @@ function setupCTAButtons() {
   }
 
   if (surveyTrigger) {
-    surveyTrigger.hidden = true;
+    surveyTrigger.hidden = !demoMode;
     surveyTrigger.addEventListener("click", () => {
       teamSection.classList.remove("hidden");
       teamSection.setAttribute("aria-hidden", "false");
@@ -198,6 +203,31 @@ function nudgeElement(element) {
   setTimeout(() => {
     element.classList.remove("pulse");
   }, 2400);
+}
+
+function enableDemoMode() {
+  flowState.agendaVisible = true;
+  flowState.surveyVisible = true;
+  flowState.teamVisible = true;
+
+  const formStatus = document.getElementById("formStatus");
+  const agendaSection = document.getElementById("agenda");
+  const surveySection = document.getElementById("survey");
+  const teamSection = document.getElementById("team");
+  const agendaTrigger = document.getElementById("agendaTrigger");
+  const surveyTrigger = document.getElementById("surveyTrigger");
+
+  [agendaSection, surveySection, teamSection].forEach((section) => {
+    if (!section) return;
+    section.classList.remove("hidden");
+    section.setAttribute("aria-hidden", "false");
+  });
+
+  if (agendaTrigger) agendaTrigger.hidden = false;
+  if (surveyTrigger) surveyTrigger.hidden = false;
+  if (formStatus) {
+    formStatus.textContent = "Demo mode: all sections unlocked for preview.";
+  }
 }
 
 function setupLightbox() {

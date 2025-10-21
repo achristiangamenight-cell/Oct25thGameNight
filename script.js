@@ -561,7 +561,7 @@ function checkTimeUnlocks() {
 
 function unlockSections() {
   const sectionsToUnlock = ["#check-in", "#agenda", "#survey"];
-  const sectionsToLock = ["#pre-check"];
+  const sectionsToHide = ["#pre-check"];
   
   // Unlock check-in, agenda, survey
   sectionsToUnlock.forEach(selector => {
@@ -574,14 +574,11 @@ function unlockSections() {
     }
   });
   
-  // Lock pre-check after 6pm
-  sectionsToLock.forEach(selector => {
+  // Hide pre-check completely after 6pm
+  sectionsToHide.forEach(selector => {
     const section = document.querySelector(selector);
     if (section) {
-      section.style.filter = "blur(3px) saturate(60%)";
-      section.style.pointerEvents = "none";
-      section.style.position = "relative";
-      section.classList.add("locked");
+      section.style.display = "none";
     }
   });
 }

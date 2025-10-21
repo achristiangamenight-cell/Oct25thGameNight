@@ -155,8 +155,12 @@ a:focus {
   opacity: 0.85;
 }
 
-#pre-check .hero-overlay {
-  display: none;
+#pre-check {
+  position: relative;
+}
+
+#pre-check::before {
+  content: none;
 }
 
 #pre-check .hero-content {

@@ -155,6 +155,15 @@ a:focus {
   opacity: 0.85;
 }
 
+#pre-check .hero-overlay {
+  display: none;
+}
+
+#pre-check .hero-content {
+  filter: none;
+  pointer-events: auto;
+}
+
 
 .hero-content {
   position: relative;

@@ -115,6 +115,30 @@ a:focus {
 
 /* Gating styles - blur specific sections until 6pm Oct 25 */
 
+#pre-check {
+  filter: blur(3px) saturate(60%);
+  pointer-events: none;
+  position: relative;
+}
+
+#pre-check::before {
+  content: "Pre-check closed after 6:00 PM on Oct 25";
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(8, 6, 7, 0.68);
+  color: var(--accent-cream);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 700;
+  font-size: 1rem;
+  text-align: center;
+  padding: 2rem;
+  z-index: 2;
+}
+
 #check-in {
   filter: blur(3px) saturate(60%);
   pointer-events: none;

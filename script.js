@@ -561,7 +561,9 @@ function checkTimeUnlocks() {
 
 function unlockSections() {
   const sectionsToUnlock = ["#check-in", "#agenda", "#survey"];
+  const sectionsToLock = ["#pre-check"];
   
+  // Unlock check-in, agenda, survey
   sectionsToUnlock.forEach(selector => {
     const section = document.querySelector(selector);
     if (section) {
@@ -569,6 +571,17 @@ function unlockSections() {
       section.style.pointerEvents = "auto";
       section.style.position = "static";
       section.classList.add("unlocked");
+    }
+  });
+  
+  // Lock pre-check after 6pm
+  sectionsToLock.forEach(selector => {
+    const section = document.querySelector(selector);
+    if (section) {
+      section.style.filter = "blur(3px) saturate(60%)";
+      section.style.pointerEvents = "none";
+      section.style.position = "relative";
+      section.classList.add("locked");
     }
   });
 }
@@ -580,6 +593,9 @@ style.textContent = `
   #agenda.unlocked::before,
   #survey.unlocked::before {
     display: none !important;
+  }
+  #pre-check.locked::before {
+    display: flex !important;
   }
 `;
 document.head.appendChild(style);

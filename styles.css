@@ -124,6 +124,10 @@ a:focus {
 #pre-check .hero-content {
   justify-content: center;
   align-items: center;
+  display: flex;
+  flex-direction: column;
+  max-width: 600px;
+  margin: 0 auto;
 }
 
 #check-in {

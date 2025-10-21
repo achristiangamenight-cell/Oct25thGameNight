@@ -150,7 +150,7 @@ function setupForm() {
 
     agendaSection.scrollIntoView({ behavior: "smooth" });
 
-    formReveal(agendaSection);
+    lockSection(agendaSection, "Unlocks at 6:00 PM on Oct 25");
     lockSection(surveySection, "Unlocks at 6:00 PM on Oct 25");
 
     setTimeout(() => {
@@ -337,6 +337,10 @@ function forceHeadcountActive() {
 }
 
 function checkTimeUnlocks() {
+  if (localStorage.getItem("unlockTimeReached") === "true") {
+    unlockAfterEvent();
+    return;
+  }
   const now = new Date();
   if (now >= unlockDate) {
     unlockAfterEvent();
@@ -345,6 +349,17 @@ function checkTimeUnlocks() {
 
   const msUntilUnlock = unlockDate.getTime() - now.getTime();
   setTimeout(unlockAfterEvent, msUntilUnlock);
+
+  const sections = [
+    document.getElementById("check-in"),
+    document.getElementById("agenda"),
+    document.getElementById("survey"),
+  ];
+
+  sections.forEach((section) => {
+    if (!section) return;
+    lockSection(section, "Unlocks at 6:00 PM on Oct 25");
+  });
 }
 
 function unlockAfterEvent() {
@@ -358,12 +373,15 @@ function unlockAfterEvent() {
     if (!section) return;
     section.classList.remove("locked", "locked-active");
     section.setAttribute("aria-hidden", "false");
+    section.removeAttribute("data-locked-message");
   });
 
   flowState.agendaVisible = true;
   flowState.surveyVisible = true;
   flowState.precheckComplete = true;
   flowState.checkinComplete = true;
+
+  localStorage.setItem("unlockTimeReached", "true");
 }
 
 function startCountdown(display) {

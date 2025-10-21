@@ -168,6 +168,11 @@ a:focus {
   pointer-events: auto;
 }
 
+#team,
+#past-events {
+  filter: none;
+}
+
 
 .hero-content {
   position: relative;

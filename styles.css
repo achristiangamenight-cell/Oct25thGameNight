@@ -116,12 +116,18 @@ a:focus {
 /* Gating styles - blur specific sections until 6pm Oct 25 */
 
 #pre-check {
-  filter: blur(3px) saturate(60%);
-  pointer-events: none;
+  /* Initially clear - will be blurred by JavaScript after 6pm */
+  filter: none;
+  pointer-events: auto;
   position: relative;
 }
 
-#pre-check::before {
+#pre-check.locked {
+  filter: blur(3px) saturate(60%);
+  pointer-events: none;
+}
+
+#pre-check.locked::before {
   content: "Pre-check closed after 6:00 PM on Oct 25";
   position: absolute;
   inset: 0;
@@ -217,22 +223,6 @@ a:focus {
 
 #pre-check::before {
   content: none;
-}
-
-#pre-check,
-#pre-check *,
-#pre-check .hero-content,
-#pre-check .checkin-card,
-#pre-check form,
-#pre-check input,
-#pre-check button {
-  filter: none !important;
-  pointer-events: auto !important;
-}
-
-#pre-check::before {
-  content: none !important;
-  display: none !important;
 }
 
 #team,

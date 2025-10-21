@@ -163,14 +163,31 @@ a:focus {
   content: none;
 }
 
+#pre-check {
+  filter: none !important;
+}
+
 #pre-check .hero-content {
-  filter: none;
-  pointer-events: auto;
+  filter: none !important;
+  pointer-events: auto !important;
+}
+
+#pre-check::before {
+  content: none !important;
+  display: none !important;
+}
+
+#pre-check.locked {
+  filter: none !important;
+}
+
+#pre-check.locked-active {
+  filter: none !important;
 }
 
 #team,
 #past-events {
-  filter: none;
+  filter: none !important;
 }
 
 

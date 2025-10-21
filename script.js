@@ -358,6 +358,8 @@ function checkTimeUnlocks() {
 
   sections.forEach((section) => {
     if (!section) return;
+    // Explicitly exclude pre-check from locking
+    if (section.id === "pre-check") return;
     lockSection(section, "Unlocks at 6:00 PM on Oct 25");
   });
 }

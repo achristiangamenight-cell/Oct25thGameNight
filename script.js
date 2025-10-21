@@ -150,9 +150,6 @@ function setupForm() {
 
     agendaSection.scrollIntoView({ behavior: "smooth" });
 
-    lockSection(agendaSection, "Unlocks at 6:00 PM on Oct 25");
-    lockSection(surveySection, "Unlocks at 6:00 PM on Oct 25");
-
     setTimeout(() => {
       form.reset();
       toggleOtherField();
@@ -547,4 +544,46 @@ function showPrevMedia() {
   currentMediaIndex = (currentMediaIndex - 1 + pastMediaItems.length) % pastMediaItems.length;
   openMediaViewer(pastMediaItems[currentMediaIndex], currentMediaIndex);
 }
+
+// Auto-unlock at 6pm Oct 25
+function checkTimeUnlocks() {
+  const unlockDate = new Date("2025-10-25T18:00:00-04:00");
+  const now = new Date();
+  
+  if (now >= unlockDate) {
+    unlockSections();
+    return;
+  }
+
+  const msUntilUnlock = unlockDate.getTime() - now.getTime();
+  setTimeout(unlockSections, msUntilUnlock);
+}
+
+function unlockSections() {
+  const sectionsToUnlock = ["#check-in", "#agenda", "#survey"];
+  
+  sectionsToUnlock.forEach(selector => {
+    const section = document.querySelector(selector);
+    if (section) {
+      section.style.filter = "none";
+      section.style.pointerEvents = "auto";
+      section.style.position = "static";
+      section.classList.add("unlocked");
+    }
+  });
+}
+
+// Add CSS to remove ::before when unlocked
+const style = document.createElement("style");
+style.textContent = `
+  #check-in.unlocked::before,
+  #agenda.unlocked::before,
+  #survey.unlocked::before {
+    display: none !important;
+  }
+`;
+document.head.appendChild(style);
+
+// Initialize time check
+checkTimeUnlocks();
 

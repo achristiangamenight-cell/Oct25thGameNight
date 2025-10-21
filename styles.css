@@ -113,8 +113,16 @@ a:focus {
     radial-gradient(circle at top right, rgba(246, 204, 101, 0.35), transparent);
 }
 
-.locked[data-gated="true"]::before {
-  content: attr(data-locked-message);
+/* Gating styles - blur specific sections until 6pm Oct 25 */
+
+#check-in {
+  filter: blur(3px) saturate(60%);
+  pointer-events: none;
+  position: relative;
+}
+
+#check-in::before {
+  content: "Unlocks at 6:00 PM on Oct 25";
   position: absolute;
   inset: 0;
   display: flex;
@@ -129,30 +137,54 @@ a:focus {
   text-align: center;
   padding: 2rem;
   z-index: 2;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  pointer-events: none;
 }
 
-.locked.locked-active[data-gated="true"]::before {
-  opacity: 1;
-}
-
-.locked[data-gated="true"] .hero-content,
-.locked[data-gated="true"] .agenda-list,
-.locked[data-gated="true"] .survey-content {
+#agenda {
   filter: blur(3px) saturate(60%);
   pointer-events: none;
+  position: relative;
 }
 
-.locked.locked-active[data-gated="true"] .hero-content,
-.locked.locked-active[data-gated="true"] .agenda-list,
-.locked.locked-active[data-gated="true"] .survey-content {
+#agenda::before {
+  content: "Unlocks at 6:00 PM on Oct 25";
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(8, 6, 7, 0.68);
+  color: var(--accent-cream);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 700;
+  font-size: 1rem;
+  text-align: center;
+  padding: 2rem;
+  z-index: 2;
+}
+
+#survey {
   filter: blur(3px) saturate(60%);
+  pointer-events: none;
+  position: relative;
 }
 
-.locked.locked-active[data-gated="true"] .hero-overlay {
-  opacity: 0.85;
+#survey::before {
+  content: "Unlocks at 6:00 PM on Oct 25";
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(8, 6, 7, 0.68);
+  color: var(--accent-cream);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 700;
+  font-size: 1rem;
+  text-align: center;
+  padding: 2rem;
+  z-index: 2;
 }
 
 #pre-check {
@@ -163,11 +195,13 @@ a:focus {
   content: none;
 }
 
-#pre-check {
-  filter: none !important;
-}
-
-#pre-check .hero-content {
+#pre-check,
+#pre-check *,
+#pre-check .hero-content,
+#pre-check .checkin-card,
+#pre-check form,
+#pre-check input,
+#pre-check button {
   filter: none !important;
   pointer-events: auto !important;
 }
@@ -175,14 +209,6 @@ a:focus {
 #pre-check::before {
   content: none !important;
   display: none !important;
-}
-
-#pre-check.locked {
-  filter: none !important;
-}
-
-#pre-check.locked-active {
-  filter: none !important;
 }
 
 #team,

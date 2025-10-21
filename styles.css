@@ -118,6 +118,12 @@ a:focus {
 #pre-check {
   /* Initially visible - will be hidden by JavaScript after 6pm */
   display: block;
+  text-align: center;
+}
+
+#pre-check .hero-content {
+  justify-content: center;
+  align-items: center;
 }
 
 #check-in {

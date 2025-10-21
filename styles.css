@@ -113,6 +113,48 @@ a:focus {
     radial-gradient(circle at top right, rgba(246, 204, 101, 0.35), transparent);
 }
 
+.locked[data-gated="true"]::before {
+  content: attr(data-locked-message);
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(8, 6, 7, 0.68);
+  color: var(--accent-cream);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 700;
+  font-size: 1rem;
+  text-align: center;
+  padding: 2rem;
+  z-index: 2;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.locked.locked-active[data-gated="true"]::before {
+  opacity: 1;
+}
+
+.locked[data-gated="true"] .hero-content,
+.locked[data-gated="true"] .agenda-list,
+.locked[data-gated="true"] .survey-content {
+  filter: blur(3px) saturate(60%);
+  pointer-events: none;
+}
+
+.locked.locked-active[data-gated="true"] .hero-content,
+.locked.locked-active[data-gated="true"] .agenda-list,
+.locked.locked-active[data-gated="true"] .survey-content {
+  filter: blur(3px) saturate(60%);
+}
+
+.locked.locked-active[data-gated="true"] .hero-overlay {
+  opacity: 0.85;
+}
+
 
 .hero-content {
   position: relative;

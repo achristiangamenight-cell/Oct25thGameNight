@@ -150,8 +150,6 @@ function setupForm() {
 
     agendaSection.scrollIntoView({ behavior: "smooth" });
 
-    if (agendaTrigger) agendaTrigger.hidden = false;
-    unlockSection(agendaSection);
     formReveal(agendaSection);
     lockSection(surveySection, "Unlocks at 6:00 PM on Oct 25");
 
@@ -171,8 +169,6 @@ function setupCTAButtons() {
   if (agendaTrigger) {
     agendaTrigger.hidden = false;
     agendaTrigger.addEventListener("click", () => {
-      unlockSection(surveySection);
-      formReveal(surveySection);
       surveySection.scrollIntoView({ behavior: "smooth" });
     });
   }
@@ -300,8 +296,6 @@ function setupPreForm() {
         if (preStatus) {
           preStatus.textContent = "Thanks for pre-checking! Scroll down when you arrive.";
         }
-        unlockSection(checkInSection);
-        formReveal(checkInSection);
       })
       .catch(() => {
         if (preStatus) {
@@ -315,10 +309,24 @@ function unlockSection(section) {
   if (!section) return;
   section.classList.remove("hidden");
   section.setAttribute("aria-hidden", "false");
+  if (section.hasAttribute("data-gated")) {
+    section.classList.remove("locked", "locked-active");
+  }
 }
 
-const formReveal = () => {};
-const lockSection = () => {};
+const formReveal = (section) => {
+  if (!section) return;
+  section.classList.remove("locked");
+};
+
+const lockSection = (section, message) => {
+  if (!section) return;
+  if (message) {
+    section.setAttribute("data-locked-message", message);
+  }
+  section.classList.add("locked", "locked-active");
+  section.setAttribute("aria-hidden", "true");
+};
 
 function forceHeadcountActive() {
   const pre = document.getElementById("pre-check");
@@ -337,19 +345,6 @@ function checkTimeUnlocks() {
 
   const msUntilUnlock = unlockDate.getTime() - now.getTime();
   setTimeout(unlockAfterEvent, msUntilUnlock);
-
-  const sections = [
-    document.getElementById("check-in"),
-    document.getElementById("agenda"),
-    document.getElementById("survey"),
-  ];
-  sections.forEach((section) => {
-    if (!section) return;
-    section.setAttribute(
-      "data-locked-message",
-      `Unlocks at 6:00 PM on Oct 25`
-    );
-  });
 }
 
 function unlockAfterEvent() {
@@ -363,7 +358,6 @@ function unlockAfterEvent() {
     if (!section) return;
     section.classList.remove("locked", "locked-active");
     section.setAttribute("aria-hidden", "false");
-    section.removeAttribute("data-locked-message");
   });
 
   flowState.agendaVisible = true;

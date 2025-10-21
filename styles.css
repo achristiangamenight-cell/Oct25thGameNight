@@ -138,7 +138,7 @@ a:focus {
 }
 
 #check-in::before {
-  content: "Check-in not available until Oct 26th at 6pm";
+  content: "Check-in not available until Oct 25th at 6pm";
   position: absolute;
   inset: 0;
   display: flex;
@@ -165,7 +165,7 @@ a:focus {
 }
 
 #agenda::before {
-  content: "Schedule not available until Oct 26th at 6pm";
+  content: "Schedule not available until Oct 25th at 6pm";
   position: absolute;
   inset: 0;
   display: flex;
@@ -192,7 +192,7 @@ a:focus {
 }
 
 #survey::before {
-  content: "Survey not available until Oct 26th at 6pm";
+  content: "Survey not available until Oct 25th at 6pm";
   position: absolute;
   inset: 0;
   display: flex;

@@ -137,21 +137,23 @@ a:focus {
 }
 
 #check-in::before {
-  content: "Unlocks at 6:00 PM on Oct 25";
+  content: "Check-in not available until Oct 26th at 6pm";
   position: absolute;
   inset: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(8, 6, 7, 0.68);
-  color: var(--accent-cream);
+  background: rgba(8, 6, 7, 0.9);
+  color: var(--accent-gold);
   text-transform: uppercase;
-  letter-spacing: 0.08em;
-  font-weight: 700;
-  font-size: 1rem;
+  letter-spacing: 0.1em;
+  font-weight: 800;
+  font-size: 1.2rem;
   text-align: center;
   padding: 2rem;
-  z-index: 2;
+  z-index: 10;
+  box-shadow: 0 0 20px rgba(246, 204, 101, 0.3);
+  border: 2px solid var(--accent-gold);
 }
 
 #agenda {
@@ -161,21 +163,23 @@ a:focus {
 }
 
 #agenda::before {
-  content: "Unlocks at 6:00 PM on Oct 25";
+  content: "Schedule not available until Oct 26th at 6pm";
   position: absolute;
   inset: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(8, 6, 7, 0.68);
-  color: var(--accent-cream);
+  background: rgba(8, 6, 7, 0.9);
+  color: var(--accent-gold);
   text-transform: uppercase;
-  letter-spacing: 0.08em;
-  font-weight: 700;
-  font-size: 1rem;
+  letter-spacing: 0.1em;
+  font-weight: 800;
+  font-size: 1.2rem;
   text-align: center;
   padding: 2rem;
-  z-index: 2;
+  z-index: 10;
+  box-shadow: 0 0 20px rgba(246, 204, 101, 0.3);
+  border: 2px solid var(--accent-gold);
 }
 
 #survey {
@@ -185,21 +189,23 @@ a:focus {
 }
 
 #survey::before {
-  content: "Unlocks at 6:00 PM on Oct 25";
+  content: "Survey not available until Oct 26th at 6pm";
   position: absolute;
   inset: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(8, 6, 7, 0.68);
-  color: var(--accent-cream);
+  background: rgba(8, 6, 7, 0.9);
+  color: var(--accent-gold);
   text-transform: uppercase;
-  letter-spacing: 0.08em;
-  font-weight: 700;
-  font-size: 1rem;
+  letter-spacing: 0.1em;
+  font-weight: 800;
+  font-size: 1.2rem;
   text-align: center;
   padding: 2rem;
-  z-index: 2;
+  z-index: 10;
+  box-shadow: 0 0 20px rgba(246, 204, 101, 0.3);
+  border: 2px solid var(--accent-gold);
 }
 
 #pre-check {
